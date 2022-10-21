@@ -1,27 +1,23 @@
 import createBasicOnlineInvoiceRequest from '../createBasicOnlineInvoiceRequest';
 
-export default async function queryInvoiceDigest(
-  user,
-  software,
-  page,
-  invoiceDirection,
-  invoiceQueryParams
-) {
+export default async function queryTaxpayer(user, software, taxNumber) {
   const request = createBasicOnlineInvoiceRequest(user, software);
   request['common:user']['common:requestSignature']._ = createRequestSignature(
     request['common:header']['common:requestId'],
     request['common:header']['common:timestamp'],
     user.signatureKey
   );
-  request.page = page;
-  request.invoiceDirection = invoiceDirection;
-  request.invoiceQueryParams = invoiceQueryParams;
+  response.taxNumber = taxNumber;
   const response = await sendRequest(
     {
       QueryInvoiceDigestRequest: request,
     },
-    'queryInvoiceDigest'
+    'queryTaxpayer'
   );
-  const { invoiceDigestResult } = response;
-  return invoiceDigestResult;
+  const { infoDate, taxpayerValidity, taxpayerData } = response;
+  return {
+    infoDate,
+    taxpayerValidity,
+    taxpayerData,
+  };
 }

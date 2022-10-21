@@ -1,24 +1,18 @@
-import { userData, softwareData } from '../../config.js';
-import BasicOnlineInvoiceRequest from '../BasicOnlineInvoiceRequest.js';
+import createBasicOnlineInvoiceRequest from '../createBasicOnlineInvoiceRequest';
 import sendRequest from '../sendRequest.js';
 import createRequestSignature from '../../utils/createRequestSignature.js';
 import crypto from 'crypto';
 
-export default async function getExchangeToken() {
-  const request = new BasicOnlineInvoiceRequest(...userData, ...softwareData);
+export default async function getExchangeToken(user, software) {
+  const request = createBasicOnlineInvoiceRequest(user, software);
   request['common:user']['common:requestSignature']._ = createRequestSignature(
     request['common:header']['common:requestId'],
     request['common:header']['common:timestamp'],
-    request.signatureKey
+    user.signatureKey
   );
   const response = await sendRequest(
     {
-      TokenExchangeRequest: {
-        $: request['$'],
-        'common:header': request['common:header'],
-        'common:user': request['common:user'],
-        software: request['software'],
-      },
+      TokenExchangeRequest: request,
     },
     'tokenExchange'
   );
@@ -30,7 +24,7 @@ export default async function getExchangeToken() {
   // iv nem kell
   const decipher = crypto.createDecipheriv(
     'aes-128-ecb',
-    userData.exchangeKey,
+    user.exchangeKey,
     null
   );
 

@@ -1,6 +1,8 @@
 import writeToXML from '../utils/writeToXML.js';
 import axios from 'axios';
 import xml2js from 'xml2js';
+import dotenv from 'dotenv';
+dotenv.config();
 
 export default async function send(request, operation) {
   const xml = writeToXML(request);

@@ -1,11 +1,10 @@
 import createBasicOnlineInvoiceRequest from '../createBasicOnlineInvoiceRequest';
 
-export default async function queryInvoiceDigest(
+export default async function manageAnnulment(
   user,
   software,
-  page,
-  invoiceDirection,
-  invoiceQueryParams
+  exchangeToken,
+  annulmentOperations
 ) {
   const request = createBasicOnlineInvoiceRequest(user, software);
   request['common:user']['common:requestSignature']._ = createRequestSignature(
@@ -13,15 +12,14 @@ export default async function queryInvoiceDigest(
     request['common:header']['common:timestamp'],
     user.signatureKey
   );
-  request.page = page;
-  request.invoiceDirection = invoiceDirection;
-  request.invoiceQueryParams = invoiceQueryParams;
+  request.exchangeToken = exchangeToken;
+  request.annulmentOperations = annulmentOperations;
   const response = await sendRequest(
     {
-      QueryInvoiceDigestRequest: request,
+      ManageAnnulmentRequest: request,
     },
-    'queryInvoiceDigest'
+    'manageAnnulment'
   );
-  const { invoiceDigestResult } = response;
-  return invoiceDigestResult;
+  const { transactionId } = response;
+  return transactionId;
 }

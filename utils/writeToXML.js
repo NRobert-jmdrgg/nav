@@ -19,7 +19,7 @@ import fs from 'fs';
 export default function writeToXML(obj) {
   if (!obj) return;
   const xmlBuilder = new xml2js.Builder({ cdata: true });
-  // let xml = xmlBuilder.buildObject(obj);
-  // fs.writeFileSync('./test2.xml', xml);
+  let xml = xmlBuilder.buildObject(obj);
+  fs.writeFileSync('./test2.xml', xml);
   return xmlBuilder.buildObject(obj);
 }

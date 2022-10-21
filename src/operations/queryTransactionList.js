@@ -1,11 +1,11 @@
 import createBasicOnlineInvoiceRequest from '../createBasicOnlineInvoiceRequest';
 
-export default async function queryInvoiceDigest(
+export default async function queryTransactionList(
   user,
   software,
   page,
-  invoiceDirection,
-  invoiceQueryParams
+  insDate,
+  requestStatus = null
 ) {
   const request = createBasicOnlineInvoiceRequest(user, software);
   request['common:user']['common:requestSignature']._ = createRequestSignature(
@@ -14,14 +14,14 @@ export default async function queryInvoiceDigest(
     user.signatureKey
   );
   request.page = page;
-  request.invoiceDirection = invoiceDirection;
-  request.invoiceQueryParams = invoiceQueryParams;
+  request.insDate = insDate;
+  request.requestStatus = requestStatus;
   const response = await sendRequest(
     {
       QueryInvoiceDigestRequest: request,
     },
-    'queryInvoiceDigest'
+    'queryTransactionList'
   );
-  const { invoiceDigestResult } = response;
-  return invoiceDigestResult;
+  const { transactionListResult } = response;
+  return transactionListResult;
 }

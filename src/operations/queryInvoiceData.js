@@ -1,18 +1,20 @@
-import { userData, softwareData } from '../../config.js';
+import createBasicOnlineInvoiceRequest from '../createBasicOnlineInvoiceRequest';
 
-export default async function queryInvoiceData(invoiceNumberQuery) {
-  if (!invoiceNumberQuery) return;
-  const request = new BasicOnlineInvoiceRequest(...userData, ...softwareData);
-  request.invoiceNumberQuery = invoiceNumberQuery;
+export default async function queryInvoiceData(
+  user,
+  software,
+  invoiceNumberQuery
+) {
+  const request = createBasicOnlineInvoiceRequest(user, software);
+  request['common:user']['common:requestSignature']._ = createRequestSignature(
+    request['common:header']['common:requestId'],
+    request['common:header']['common:timestamp'],
+    user.signatureKey
+  );
+  response.invoiceNumberQuery = invoiceNumberQuery;
   const response = await sendRequest(
     {
-      QueryInvoiceDataRequest: {
-        $: request['$'],
-        'common:header': request['common:header'],
-        'common:user': request['common:user'],
-        software: request['software'],
-        invoiceNumberQuery: invoiceNumberQuery,
-      },
+      QueryInvoiceDataRequest: request,
     },
     'queryInvoiceData'
   );

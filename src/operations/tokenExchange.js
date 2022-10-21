@@ -34,7 +34,7 @@ export default async function getExchangeToken() {
     null
   );
 
-  // base64 - utf8
+  // base64 -> utf8
   let exchangeToken = decipher.update(encryptedToken, 'base64', 'utf8');
   exchangeToken += decipher.final('utf8');
 

@@ -1,21 +1,27 @@
 import { userData, softwareData } from '../../config.js';
 
-export default async function queryInvoiceData(invoiceNumberQuery) {
-  if (!invoiceNumberQuery) return;
+export default async function queryInvoiceDigest(
+  page,
+  invoiceDirection,
+  invoiceQueryParams
+) {
+  if (!page || !invoiceDirection || !invoiceQueryParams) return;
   const request = new BasicOnlineInvoiceRequest(...userData, ...softwareData);
   request.invoiceNumberQuery = invoiceNumberQuery;
   const response = await sendRequest(
     {
-      QueryInvoiceDataRequest: {
+      QueryInvoiceDigestRequest: {
         $: request['$'],
         'common:header': request['common:header'],
         'common:user': request['common:user'],
         software: request['software'],
-        invoiceNumberQuery: invoiceNumberQuery,
+        page: page,
+        invoiceDirection: invoiceDirection,
+        invoiceQueryParams: invoiceQueryParams,
       },
     },
-    'queryInvoiceData'
+    'queryInvoiceDigest'
   );
-  const { invoiceDataResult } = response;
-  return invoiceDataResult;
+  const { invoiceDigestResult } = response;
+  return invoiceDigestResult;
 }

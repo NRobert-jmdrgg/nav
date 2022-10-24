@@ -10,7 +10,11 @@ export default async function manageAnnulment(
   request['common:user']['common:requestSignature']._ = createRequestSignature(
     request['common:header']['common:requestId'],
     request['common:header']['common:timestamp'],
-    user.signatureKey
+    user.signatureKey,
+    annulmentOperations.annulmentOperation.map((annulmentOperation) => {
+      operationType: annulmentOperation.annulmentOperation;
+      base64data: annulmentOperation.invoiceAnnulment;
+    })
   );
   request.exchangeToken = exchangeToken;
   request.annulmentOperations = annulmentOperations;

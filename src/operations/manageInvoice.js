@@ -10,7 +10,11 @@ export default async function manageInvoice(
   request['common:user']['common:requestSignature']._ = createRequestSignature(
     request['common:header']['common:requestId'],
     request['common:header']['common:timestamp'],
-    user.signatureKey
+    user.signatureKey,
+    invoiceOperations.invoiceOperation.map((invoiceOperation) => {
+      operationType: invoiceOperation.invoiceOperation;
+      base64data: invoiceOperation.invoiceData;
+    })
   );
   requeset.exchangeToken = exchangeToken;
   requeset.invoiceOperations = invoiceOperations;

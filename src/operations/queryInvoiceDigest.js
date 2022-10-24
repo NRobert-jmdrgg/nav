@@ -25,7 +25,7 @@ export default async function queryInvoiceDigest(
     'queryInvoiceDigest'
   );
 
-  // console.log(JSON.stringify(response, null, 2));
-
-  return response['QueryInvoiceDigestResponse']['invoiceDigestResult'];
+  return response
+    ? response['QueryInvoiceDigestResponse']['invoiceDigestResult']
+    : null;
 }

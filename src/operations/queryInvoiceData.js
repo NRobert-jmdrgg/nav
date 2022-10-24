@@ -20,5 +20,6 @@ export default async function queryInvoiceData(
     },
     'queryInvoiceData'
   );
-  return response['invoiceDataResult'];
+
+  return response ? response['invoiceDataResult'] : null;
 }

@@ -1,4 +1,6 @@
-import createBasicOnlineInvoiceRequest from '../createBasicOnlineInvoiceRequest';
+import createBasicOnlineInvoiceRequest from '../createBasicOnlineInvoiceRequest.js';
+import createRequestSignature from '../../utils/createRequestSignature.js';
+import sendRequest from '../sendRequest.js';
 
 export default async function queryInvoiceData(
   user,
@@ -11,13 +13,12 @@ export default async function queryInvoiceData(
     request['common:header']['common:timestamp'],
     user.signatureKey
   );
-  response.invoiceNumberQuery = invoiceNumberQuery;
+  request.invoiceNumberQuery = invoiceNumberQuery;
   const response = await sendRequest(
     {
       QueryInvoiceDataRequest: request,
     },
     'queryInvoiceData'
   );
-  const { invoiceDataResult } = response;
-  return invoiceDataResult;
+  return response['invoiceDataResult'];
 }

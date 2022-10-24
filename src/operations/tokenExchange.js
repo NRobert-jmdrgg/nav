@@ -1,4 +1,4 @@
-import createBasicOnlineInvoiceRequest from '../createBasicOnlineInvoiceRequest';
+import createBasicOnlineInvoiceRequest from '../createBasicOnlineInvoiceRequest.js';
 import sendRequest from '../sendRequest.js';
 import createRequestSignature from '../../utils/createRequestSignature.js';
 import crypto from 'crypto';

@@ -1,4 +1,6 @@
-import createBasicOnlineInvoiceRequest from '../createBasicOnlineInvoiceRequest';
+import createBasicOnlineInvoiceRequest from '../createBasicOnlineInvoiceRequest.js';
+import createRequestSignature from '../../utils/createRequestSignature.js';
+import sendRequest from '../sendRequest.js';
 
 export default async function queryInvoiceDigest(
   user,
@@ -22,6 +24,8 @@ export default async function queryInvoiceDigest(
     },
     'queryInvoiceDigest'
   );
-  const { invoiceDigestResult } = response;
-  return invoiceDigestResult;
+
+  // console.log(JSON.stringify(response, null, 2));
+
+  return response['QueryInvoiceDigestResponse']['invoiceDigestResult'];
 }

@@ -1,6 +1,12 @@
 import makeid from '../utils/makeid.js';
 import crypto from 'crypto';
 
+/**
+ * Alap request object
+ * @param {User} user user adatokat tartalmazó object
+ * @param {Software} software software adatokat tartalmazó object
+ * @returns BasicOnlineInvoiceRequest object
+ */
 export default function createBasicOnlineInvoiceRequest(user, software) {
   return {
     $: {

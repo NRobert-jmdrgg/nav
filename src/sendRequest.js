@@ -4,6 +4,12 @@ import xml2js from 'xml2js';
 import dotenv from 'dotenv';
 dotenv.config();
 
+/**
+ * Nav online számla API Request küldése.
+ * @param {Object} request az operációhoz tartozó request object
+ * @param {string} operation operáció
+ * @returns {Object | null} response object
+ */
 export default async function send(request, operation) {
   const xml = writeToXML(request);
   const xmlparser = new xml2js.Parser();
